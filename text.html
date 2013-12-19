@@ -1,0 +1,44 @@
+<html>
+<head>
+<script>
+
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+
+<script>
+
+$(document).ready(function() {
+   
+   $("#go_button").click(function(){
+    var command_input = $("#command_input")[0].value;
+    $.ajax({url: '/ghci_command/'+encodeURIComponent(command_input) , success: function (result){
+     var current_value = $("#outputs")[0].innerHTML;
+       $("#outputs")[0].innerHTML = "<p>" +  result + "</p>" +current_value;
+     }});
+   }); 
+});
+
+
+</script>
+</head>
+<body>
+
+<table style="width:100%">
+ <tr>
+  <td style="width:0%">
+   <input id="go_button" type="button" value="go"></input>
+</td>
+<td style="width:100%">
+ <textarea id="command_input" type="text" style="width:100%"> </textarea>
+</td>
+</table>
+
+<p id="outputs"></p>
+
+</body>
+
+</html>
+
+
