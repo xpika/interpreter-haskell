@@ -7,7 +7,7 @@ import Language.Haskell.Interpreter hiding (get)
 
 import Data.Monoid (mconcat)
 
-main = scotty 80 $ do
+main = scotty 3000 $ do
   get "/ghci_command/:word" $ do
     beam <- param "word"
     interpreted <- liftIO $  runInterpreter $ setImports ["Prelude","Control.Monad"] >> eval beam
