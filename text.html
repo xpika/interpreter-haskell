@@ -13,7 +13,7 @@ $(document).ready(function() {
    
    $("#go_button").click(function(){
     var command_input = $("#command_input")[0].value;
-    $.ajax({url: '/ghci_command/'+encodeURIComponent(command_input) , success: function (result){
+    $.ajax({url: '/ghci_command?foo='+encodeURIComponent(command_input) , success: function (result){
      var current_value = $("#outputs")[0].innerHTML;
        $("#outputs")[0].innerHTML = "<p>" +  result + "</p>" +current_value;
      }});
