@@ -4,14 +4,24 @@ import Web.Scotty
 import Control.Monad.Trans
 import Data.Text.Lazy
 import Language.Haskell.Interpreter hiding (get)
+import Text.Read (readMaybe)
+import Control.Applicative
 
 import Data.Monoid (mconcat)
 
+
+   
 main = scotty 3000 $ do
-  get "/ghci_command/:word" $ do
-    beam <- param "word"
-    interpreted <- liftIO $  runInterpreter $ setImports ["Prelude","Control.Monad"] >> eval beam
-    html $ mconcat [pack (show interpreted)]
+  get "/ghci_command" $ do
+    beam <- param "foo"
+    interpreted <- liftIO $  runInterpreter $ loadModules ["Resources"] >> setTopLevelModules ["Resources"] >> setImports ["Prelude","Control.Monad","Resources"] >> eval beam
+    html $ mconcat [pack (
+        case interpreted of 
+            Right x ->  x
+            Left g -> show g
+        )]
+            
+                               
   get "/:word" $ do
     beam <- param "word"
     newfile <- liftIO $ readFile "text.html"
