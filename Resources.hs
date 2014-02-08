@@ -7,3 +7,4 @@ module Resources (
 --import Plugins.DiagramStuff
 import Data.List
 import Plugins.LiteralString
+--import Plugins.Charts
