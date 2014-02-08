@@ -1,4 +1,6 @@
  {-# LANGUAGE NoMonomorphismRestriction #-}
+ {-# LANGUAGE FlexibleInstances #-}
+ {-# LANGUAGE IncoherentInstances #-}
 module Plugins.Charts where
 
 import Graphics.Rendering.Chart
@@ -17,29 +19,42 @@ import Diagrams.Backend.Cairo.Internal
 import qualified Graphics.Rendering.Chart.Renderable ( render, Renderable )
 import System.Environment ( getArgs )
 
+
+
+
 import qualified Diagrams.Prelude hiding (render)
 
 import Plugins.DiagramStuff
 
 import System.IO.Unsafe
 
-chart = toRenderable layout
+chart vs = toRenderable layout
   where
-    circle = [ (r a * sin (a*dr),r a * cos (a*dr)) | a <- [0,0.5..360::Double] ]
-      where
-        dr = 2 * pi / 360
-        r a = 0.8 * cos (a * 20 * pi /360)
-
-    circleP = plot_lines_values .~ [circle]
+    circleP = plot_lines_values .~ vs
             $ plot_lines_style .~ solidLine 1.0 (opaque blue) 
             $ def
-
-    layout = layout_title .~ "Parametric Plot"
-           $ layout_plots .~ [toPlot circleP]
+    layout =  layout_plots .~ [toPlot circleP]
            $ def
-           
 
-cr = Graphics.Rendering.Chart.Renderable.render chart (500,500)
+myChart vs = let env = unsafePerformIO $ Graphics.Rendering.Chart.Backend.Diagrams.defaultEnv bitmapAlignmentFns 500 500
+             in (Diagrams.Prelude.scale 0.01 (fst $ Graphics.Rendering.Chart.Backend.Diagrams.runBackendR env ((chart [  getVs vs ::[(Double,Double)]]))))
+             
+rChart vs = rdia  ( myChart vs)
+             
+class GetVs a where
+    getVs :: a -> [(Double,Double)]
 
-myChart = let env = unsafePerformIO $  Graphics.Rendering.Chart.Backend.Diagrams.defaultEnv bitmapAlignmentFns 500 500
-          in (Diagrams.Prelude.scale 0.01 (fst $ Graphics.Rendering.Chart.Backend.Diagrams.runBackendR env chart))
+
+
+instance (Enum a, Real a, Fractional a) => GetVs (a -> a) where
+    getVs f = zip [1..] (map realToFrac (map f [0,0.1..(2*realToFrac pi)]))
+    
+instance Real a => GetVs [a] where
+    getVs xs = zip [1..] (map realToFrac xs)
+    
+instance GetVs [(Double,Double)] where
+    getVs xs = xs
+
+        
+
+    
