@@ -8,8 +8,6 @@ import Text.Read (readMaybe)
 import Control.Applicative
 
 import Data.Monoid (mconcat)
-
-
    
 main = scotty 3000 $ do
   get "/ghci_command" $ do
@@ -20,8 +18,9 @@ main = scotty 3000 $ do
             Right x ->  x
             Left g -> show g
         )]
-            
-                               
+  get "/jquery.min.js" $ do
+    newfile <- liftIO $ readFile "./jquery.min.js"
+    html $ mconcat [pack newfile]
   get "/:word" $ do
     beam <- param "word"
     newfile <- liftIO $ readFile "text.html"
