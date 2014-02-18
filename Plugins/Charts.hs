@@ -19,9 +19,6 @@ import Diagrams.Backend.Cairo.Internal
 import qualified Graphics.Rendering.Chart.Renderable ( render, Renderable )
 import System.Environment ( getArgs )
 
-
-
-
 import qualified Diagrams.Prelude hiding (render)
 
 import Plugins.DiagramStuff
@@ -44,8 +41,6 @@ rChart vs = rdia  ( myChart vs)
 class GetVs a where
     getVs :: a -> [(Double,Double)]
 
-
-
 instance (Enum a, Real a, Fractional a) => GetVs (a -> a) where
     getVs f = zip [1..] (map realToFrac (map f [0,0.1..(2*realToFrac pi)]))
     
@@ -54,7 +49,5 @@ instance Real a => GetVs [a] where
     
 instance GetVs [(Double,Double)] where
     getVs xs = xs
-
-        
 
     
