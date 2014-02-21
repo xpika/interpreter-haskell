@@ -54,8 +54,23 @@ instance (Enum a, Real a, Fractional a,Real t0,Real t1) => GetVs ((a -> a),t0,t1
 instance Real a => GetVs [a] where
     getVs xs = zip [1..] (map realToFrac xs)
     
+instance (Real a ,Fractional a,Real b,Fractional b) => GetVs [(a,b)] where
+    getVs xs = map (\(x,y)-> (realToFrac x , realToFrac y)) xs
+    
 instance GetVs [(Double,Double)] where
     getVs xs = xs
+    
+coordToReals (x,y) = (x',y')
+  where x' = realToFrac x
+        y' = realToFrac y
 
+toPolar :: GetVs a => a -> [(Double,Double)]
+toPolar a = map toPolar' (getVs a)
 
+toPolar' :: (Real a , Real b) => (a,b) -> (Double,Double)
+toPolar' (x,y) = (x'',y'')
+    where x'' = y' * (cos x')
+          y'' = y' * (sin x')
+          x' = realToFrac x
+          y' = realToFrac y
     
