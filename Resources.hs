@@ -4,8 +4,8 @@ module Resources (
  ,module Plugins.DiagramStuff
 ) where
 
-import Plugins.DiagramStuff
+--import Plugins.DiagramStuff
 import Data.List
 import Plugins.LiteralString
-import Plugins.Charts
-import Plugins.TreeView
+--import Plugins.Charts
+--import Plugins.TreeView
