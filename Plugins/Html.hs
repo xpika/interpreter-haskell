@@ -1,20 +1,31 @@
 {-# LANGUAGE OverloadedStrings , TypeSynonymInstances, FlexibleInstances#-}
 
-module Plugins.Html where
+module Plugins.Html (
+  hTable
+ ,rHtml
+ ,module Text.Blaze.Html5 
+) where
 
+import Text.Blaze.Html5 hiding (map)
 import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes
+import qualified Text.Blaze.Html5.Attributes as A
 import           Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import Control.Monad
 import Data.ByteString.Lazy (unpack)
 import Data.Char
+import Plugins.LiteralString
 
-instance Show H.Html where
-    show x = map ( chr .fromIntegral)  (unpack (renderHtml x))
+instance Show Text.Blaze.Html5.Html where
+    show x = map (chr . fromIntegral)  (unpack (renderHtml x))
     
-renderTable xss = do 
+    
+rHtml x = str $ map (chr . fromIntegral)  (unpack (renderHtml x))    
+    
+hTable xss = do 
   H.table $ do
     forM_ xss $ \xs ->
       H.tr $ do
         forM_ xs $ \x ->
-          H.td $ do
-            H.p (H.toHtml $ show x) 
+          H.td H.! (A.style "text-align:right") $ do
+           H.p (H.toHtml $ show $ str $ x)

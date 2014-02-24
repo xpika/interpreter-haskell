@@ -1,8 +1,14 @@
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE IncoherentInstances #-}
+
 module Plugins.LiteralString where
 
-data LitString = LitString String
+data LitString a = LitString a
 
-instance Show LitString where
+instance Show (LitString String) where
     show (LitString x) = x
+    
+instance Show a => Show (LitString a) where
+    show (LitString x) = show x    
     
 str = LitString
