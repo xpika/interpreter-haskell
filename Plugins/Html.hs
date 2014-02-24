@@ -22,10 +22,10 @@ instance Show Text.Blaze.Html5.Html where
     
 rHtml x = str $ map (chr . fromIntegral)  (unpack (renderHtml x))    
     
-hTable xss = do 
-  H.table $ do
+hTable xss =
+  H.table $
     forM_ xss $ \xs ->
-      H.tr $ do
+      H.tr $
         forM_ xs $ \x ->
-          H.td H.! (A.style "text-align:right") $ do
+          H.td H.! (A.style "text-align:right") $
            H.p (H.toHtml $ show $ str $ x)
