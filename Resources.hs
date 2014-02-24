@@ -1,6 +1,6 @@
 module Resources (
  -- module Data.List
- ,module Plugins.LiteralString
+ module Plugins.LiteralString
  --,module Plugins.DiagramStuff
 ) where
 
