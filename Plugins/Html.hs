@@ -1,4 +1,7 @@
 {-# LANGUAGE OverloadedStrings , TypeSynonymInstances, FlexibleInstances#-}
+
+module Plugins.Html where
+
 import qualified Text.Blaze.Html5 as H
 import           Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import Control.Monad
