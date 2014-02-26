@@ -12,7 +12,13 @@ import Data.Monoid (mconcat)
 main = scotty 3000 $ do
   get "/ghci_command" $ do
     beam <- param "foo"
-    interpreted <- liftIO $  runInterpreter $ loadModules ["Resources"] >> set [languageExtensions :=  [OverloadedStrings]] >> setTopLevelModules ["Resources"] >> setImports ["Prelude","Control.Monad","Resources"] >> eval beam
+    interpreted <- liftIO $ do runInterpreter $ do 
+                                                loadModules ["Resources"] 
+                                                set [languageExtensions :=  [OverloadedStrings]]
+                                                setTopLevelModules ["Resources"] 
+                                                setImports ["Prelude","Control.Monad"]
+                                                eval beam
+        
     html $ mconcat [pack (
         case interpreted of 
             Right x ->  x
