@@ -1,31 +1,55 @@
 {-# LANGUAGE OverloadedStrings , TypeSynonymInstances, FlexibleInstances#-}
+{-# LANGUAGE FlexibleInstances #-} 
+{-# LANGUAGE OverlappingInstances #-}
 
 module Plugins.Html (
   hTable
- ,rHtml
- ,module Text.Blaze.Html5 
+ ,module Text.Blaze.Html5
+ ,mySpecialHTMLGetter
+ ,mySpecialStringGetter
 ) where
 
 import Text.Blaze.Html5 hiding (map)
+import Text.Blaze.Internal
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes
 import qualified Text.Blaze.Html5.Attributes as A
-import           Text.Blaze.Html.Renderer.Utf8 (renderHtml)
-import Control.Monad
-import Data.ByteString.Lazy (unpack)
-import Data.Char
-import Plugins.LiteralString
 
+
+import Control.Monad
+
+import           Text.Blaze.Html.Renderer.Utf8 (renderHtml)
+import Data.Char
+import Data.ByteString.Lazy (unpack)
 instance Show Text.Blaze.Html5.Html where
     show x = map (chr . fromIntegral)  (unpack (renderHtml x))
     
     
-rHtml x = str $ map (chr . fromIntegral)  (unpack (renderHtml x))    
+rHtml x = mySpecialStringGetter $ map (chr . fromIntegral)  (unpack (renderHtml x))    
     
-hTable xss = do 
-  H.table $ do
+hTable xss =
+  H.table $
     forM_ xss $ \xs ->
-      H.tr $ do
+      H.tr $
         forM_ xs $ \x ->
-          H.td H.! (A.style "text-align:right") $ do
-           H.p (H.toHtml $ show $ str $ x)
+          H.td H.! (A.style "text-align:right") $
+           H.p (mySpecialHTMLGetter x)
+           
+class MySpecialHTMLGetter a where
+ mySpecialHTMLGetter :: (Show a, MySpecialStringGetter a) => a -> Text.Blaze.Internal.MarkupM ()
+ 
+instance MySpecialHTMLGetter (Text.Blaze.Internal.MarkupM ()) where
+ mySpecialHTMLGetter a = a
+ 
+instance MySpecialHTMLGetter a where
+ mySpecialHTMLGetter a = toHtml $ mySpecialStringGetter a
+ 
+class MySpecialStringGetter a where
+    mySpecialStringGetter :: Show a => a -> String
+
+instance MySpecialStringGetter String where
+ mySpecialStringGetter a = a
+ 
+instance MySpecialStringGetter a where
+ mySpecialStringGetter a = show a
+ 
