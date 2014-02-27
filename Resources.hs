@@ -9,5 +9,5 @@ import Data.List
 import Plugins.LiteralString
 import Plugins.Charts
 import Plugins.TreeView
-import Plugins.Html as H
+import qualified Plugins.Html as H
 
