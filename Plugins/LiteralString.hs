@@ -12,3 +12,6 @@ instance Show a => Show (LitString a) where
     show (LitString x) = show x    
     
 str = LitString
+
+
+main = print $ str $ 22

@@ -1,6 +1,8 @@
-{-# LANGUAGE OverloadedStrings , TypeSynonymInstances, FlexibleInstances#-}
-{-# LANGUAGE FlexibleInstances #-} 
-{-# LANGUAGE OverlappingInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE IncoherentInstances #-}
+
+
 
 module Plugins.Html (
   hTable
@@ -26,7 +28,8 @@ instance Show Text.Blaze.Html5.Html where
     
     
 rHtml x = mySpecialStringGetter $ map (chr . fromIntegral)  (unpack (renderHtml x))    
-    
+ 
+hTable :: (Show a, MySpecialHTMLGetter a,MySpecialStringGetter a) => [[a]] -> Text.Blaze.Internal.MarkupM ()
 hTable xss =
   H.table $
     forM_ xss $ \xs ->
