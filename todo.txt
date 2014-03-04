@@ -1,0 +1,14 @@
+add database query functions
+
+bind variables
+
+obtain module bindings eg. _browse "Data.List"
+obtain info eg. _info
+
+run _type functions in any way eg. map _type ["2",'(2,2)"]
+
+load extra modules
+
+browse modules
+
+use _type function without strings let a = 3 in _type(a)
