@@ -9,5 +9,9 @@ import Data.List
 import Plugins.LiteralString
 import Plugins.Charts
 import Plugins.TreeView
-import qualified Plugins.Html as H
+import Plugins.IO
+
+import Plugins.Html
+import qualified Text.Blaze.Html5 as H 
+import qualified Text.Blaze.Html4.Transitional.Attributes as A 
 

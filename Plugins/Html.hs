@@ -2,27 +2,25 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE IncoherentInstances #-}
 
-
-
 module Plugins.Html (
   hTable
- ,module Text.Blaze.Html5
  ,mySpecialHTMLGetter
  ,mySpecialStringGetter
+ ,fromString
 ) where
 
 import Text.Blaze.Html5 hiding (map)
 import Text.Blaze.Internal
-import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes
+import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-
 
 import Control.Monad
 
 import           Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 import Data.Char
 import Data.ByteString.Lazy (unpack)
+import Data.String
 instance Show Text.Blaze.Html5.Html where
     show x = map (chr . fromIntegral)  (unpack (renderHtml x))
     
@@ -36,7 +34,7 @@ hTable xss =
       H.tr $
         forM_ xs $ \x ->
           H.td H.! (A.style "text-align:right") $
-           H.p (mySpecialHTMLGetter x)
+            H.p (mySpecialHTMLGetter x)
            
 class MySpecialHTMLGetter a where
  mySpecialHTMLGetter :: (Show a, MySpecialStringGetter a) => a -> Text.Blaze.Internal.MarkupM ()
