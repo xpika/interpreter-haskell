@@ -6,9 +6,16 @@ import Data.Text.Lazy
 import Language.Haskell.Interpreter hiding (get)
 import Text.Read (readMaybe)
 import Control.Applicative
-
 import Data.Monoid (mconcat)
+
+import TypeHelper
+
+uneither q =  (case q of {
+               Right x -> x
+              ;Left g -> show g
+             })
    
+
 main = scotty 3000 $ do
   get "/ghci_command" $ do
     beam <- param "foo"
@@ -19,12 +26,15 @@ main = scotty 3000 $ do
              set [languageExtensions :=  [OverloadedStrings]]
              setTopLevelModules ["Resources"] 
              setImports ["Prelude","Control.Monad"]
-             q <- eval beam
-             return (case q of {
-               Right x -> x
-              ;Left g -> show g
-             })
-    html $ mconcat [pack interpreted]
+             t <- typeOf beam
+             q <- case t of {
+                  "TypeQuery" -> do {
+                     interpret beam infer >>= decodeTypeHelper
+                   };
+                   _ -> eval beam;
+              }
+             return q
+    html $ mconcat [pack (uneither interpreted)]
   get "/jquery.min.js" $ do
     newfile <- liftIO $ readFile "./jquery.min.js"
     html $ mconcat [pack newfile]
@@ -32,6 +42,5 @@ main = scotty 3000 $ do
     beam <- param "word"
     newfile <- liftIO $ readFile "text.html"
     html $ mconcat [pack newfile,beam]
-
 
 

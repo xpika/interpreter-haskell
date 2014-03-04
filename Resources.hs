@@ -1,3 +1,4 @@
+
 module Resources (
   module Data.List
  ,module Plugins.LiteralString
@@ -15,3 +16,4 @@ import Plugins.Html
 import qualified Text.Blaze.Html5 as H 
 import qualified Text.Blaze.Html4.Transitional.Attributes as A 
 
+import TypeHelper
