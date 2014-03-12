@@ -1,4 +1,4 @@
 *.o
-./interpreter
+interpreter
 *.swp
 *.hi
