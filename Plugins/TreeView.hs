@@ -14,7 +14,7 @@ testTree = Node "" [
 
 renderList xs = 
     "<ul>" 
-  ++ concatMap (\item -> "<li>" ++ show (str item) ++ "</li>") xs
+  ++ concatMap (\item -> "<li>" ++ show (stri item) ++ "</li>") xs
   ++ "</ul>"
 
 instance Show (HTMLTree) where
