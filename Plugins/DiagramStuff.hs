@@ -13,4 +13,4 @@ import Diagrams.Prelude
 import Text.Blaze.Svg.Renderer.String
 import Plugins.LiteralString
 
-rdia dia = str $ renderSvg $ renderDia SVG (SVGOptions Absolute Nothing) ((dia # scale 100 # lw 1) :: Diagram SVG R2)
+rdia dia = stri $ renderSvg $ renderDia SVG (SVGOptions Absolute Nothing) ((dia # scale 100 # lw 1) :: Diagram SVG R2)

@@ -1,12 +1,27 @@
+
 module Resources (
- -- module Data.List
- module Plugins.LiteralString
+  module Data.List
+  module Plugins.LiteralString
+ ,module Plugins.Str
  --,module Plugins.DiagramStuff
+ --,module Database.HDBC 
+ --,module Database.HDBC.Sqlite3
 ) where
 
--- import Plugins.DiagramStuff
--- import Data.List
+import TypeHelper
+import Plugins.Str
+import Plugins.IO
 import Plugins.LiteralString
--- import Plugins.Charts
--- import Plugins.TreeView
--- import Plugins.Html as H
+--import Plugins.DiagramStuff
+--import Data.List
+--import Plugins.Charts
+--import Plugins.TreeView
+--import Plugins.Html as H
+--import Plugins.Charts
+--import Plugins.TreeView
+--import Plugins.Html
+--import qualified Text.Blaze.Html5 as H 
+--import qualified Text.Blaze.Html4.Transitional.Attributes as A 
+--import Plugins.Sql
+--import Database.HDBC 
+--import Database.HDBC.Sqlite3
