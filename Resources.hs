@@ -1,7 +1,7 @@
 
 module Resources (
   module Data.List
-  module Plugins.LiteralString
+ ,module Plugins.LiteralString
  ,module Plugins.Str
  --,module Plugins.DiagramStuff
  --,module Database.HDBC 
@@ -12,8 +12,8 @@ import TypeHelper
 import Plugins.Str
 import Plugins.IO
 import Plugins.LiteralString
+import Data.List
 --import Plugins.DiagramStuff
---import Data.List
 --import Plugins.Charts
 --import Plugins.TreeView
 --import Plugins.Html as H
