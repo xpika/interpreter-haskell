@@ -23,7 +23,7 @@ main = scotty 3000 $ do
         do runInterpreter $
              do 
              loadModules ["Resources"] 
-             set [languageExtensions :=  [OverloadedStrings,QuasiQuotes]]
+             set [languageExtensions :=  [QuasiQuotes]]
              setTopLevelModules ["Resources"] 
              setImports ["Prelude","Control.Monad"]
              t <- typeOf beam
