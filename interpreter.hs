@@ -8,17 +8,20 @@ import Text.Read (readMaybe)
 import Control.Applicative
 import Data.Monoid (mconcat)
 
+
 import TypeHelper
+
+import Splitter
 
 uneither q =  (case q of {
                Right x -> x
               ;Left g -> show g
              })
    
-
 main = scotty 3000 $ do
   get "/ghci_command" $ do
     beam <- param "foo"
+    let (_,q) = splitter beam
     interpreted <- liftIO $ 
         do runInterpreter $
              do 
@@ -42,5 +45,7 @@ main = scotty 3000 $ do
     beam <- param "word"
     newfile <- liftIO $ readFile "text.html"
     html $ mconcat [pack newfile,beam]
+
+
 
 
