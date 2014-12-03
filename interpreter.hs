@@ -21,20 +21,21 @@ uneither q =  (case q of {
 main = scotty 3000 $ do
   get "/ghci_command" $ do
     beam <- param "foo"
-    let (_,q) = splitter beam
+    let z@(imps,q) = splitter beam
+    liftIO $ print z
     interpreted <- liftIO $ 
         do runInterpreter $
              do 
              loadModules ["Resources"] 
              set [languageExtensions :=  [QuasiQuotes]]
              setTopLevelModules ["Resources"] 
-             setImports ["Prelude","Control.Monad"]
-             t <- typeOf beam
+             setImports (["Prelude","Control.Monad"]++imps)
+             t <- typeOf q
              q <- case t of {
                   "TypeQuery" -> do {
-                     interpret beam infer >>= decodeTypeHelper
+                     interpret q infer >>= decodeTypeHelper
                    };
-                   _ -> eval beam;
+                   _ -> eval q;
               }
              return q
     html $ mconcat [pack (uneither interpreted)]

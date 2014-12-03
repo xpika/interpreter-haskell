@@ -13,9 +13,9 @@ import System.Environment(getArgs)
 
 import Diagrams.Core.Types ( renderDia )
 import Diagrams.TwoD ( SizeSpec2D(..) )
-import Diagrams.Backend.Cairo
+--import Diagrams.Backend.Cairo
 import Diagrams.Backend.SVG
-import Diagrams.Backend.Cairo.Internal
+--import Diagrams.Backend.Cairo.Internal
 import qualified Graphics.Rendering.Chart.Renderable ( render, Renderable )
 import System.Environment ( getArgs )
 
@@ -47,7 +47,7 @@ instance (Enum a, Real a, Fractional a) => GetVs (a -> a) where
     
 instance (Enum a, Real a, Fractional a,Real t0,Real t1) => GetVs ((a -> a),t0,t1) where
     getVs (f,s,e) = zip range (map realToFrac (map f range))
-     where range = [s',((e'-s')/300)..e']
+     where range = [s',(s'+abs(s'-e')/300.0)..e']
            s' = realToFrac s
            e' = realToFrac e
 

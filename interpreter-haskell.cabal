@@ -17,5 +17,14 @@ cabal-version:       >=1.8
 
 executable interpreter-haskell
   main-is: interpreter.hs
-  -- other-modules:       
-  build-depends:       base ==4.6.* , scotty , hint ,text,mtl
+  other-modules: 
+  build-depends:   base  
+                  ,scotty 
+                  ,hint 
+                  ,text
+                  ,mtl
+                  ,parsec
+                  ,blaze-markup
+                  ,blaze-html 
+                  ,syb 
+                  ,bytestring

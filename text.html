@@ -1,16 +1,11 @@
 <html>
 <head>
 <script>
-
 </script>
-
 <script src="/jquery.min.js">
 </script>
-
 <script>
-
-$(document).ready(function() {
-   
+$(document).ready(function(){
    $("#go_button").click(function(){
     var command_input = $("#command_input")[0].value;
     $.ajax({url: '/ghci_command?foo='+encodeURIComponent(command_input) , success: function (result){
@@ -19,12 +14,9 @@ $(document).ready(function() {
      }});
    }); 
 });
-
-
 </script>
 </head>
 <body>
-
 <table style="width:100%">
  <tr>
   <td style="width:0%">
@@ -34,11 +26,6 @@ $(document).ready(function() {
  <textarea id="command_input" type="text" style="width:100%"> </textarea>
 </td>
 </table>
-
 <p id="outputs"></p>
-
 </body>
-
 </html>
-
-

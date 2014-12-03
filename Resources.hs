@@ -1,18 +1,17 @@
 
 module Resources (
-  module Data.List
- ,module Plugins.LiteralString
+  -- module Data.List
+ module Plugins.LiteralString
  --,module Plugins.DiagramStuff
  ,module Database.HDBC 
  ,module Database.HDBC.Sqlite3
  ,module Plugins.Str
 ) where
 
---import Plugins.DiagramStuff
-import Data.List
+import Plugins.DiagramStuff
 import Plugins.LiteralString
 import Plugins.Str
---import Plugins.Charts
+import Plugins.Charts
 import Plugins.TreeView
 import Plugins.IO
 
@@ -28,4 +27,13 @@ import Plugins.Sql
 import Database.HDBC 
 import Database.HDBC.Sqlite3
 
-import Text.Html
+ -- import Text.Html
+
+import System.Random
+import System.IO.Unsafe
+
+unsafeRandom :: [Double]
+unsafeRandom = unsafePerformIO $ getStdGen >>= return . randoms
+
+calcMeanList = uncurry (/) . foldr (\e (s,c) -> (e+s,c+1)) (0,0)
+
