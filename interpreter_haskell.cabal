@@ -14,8 +14,9 @@ maintainer:          hawk.alan@gmail.com
 category:            Development
 build-type:          Simple
 cabal-version:       >=1.8
+data-files:          jquery.min.js
 
 executable interpreter-haskell
   main-is: interpreter.hs
   -- other-modules:       
-  build-depends:       base <10000 , scotty , hint ,text,mtl,syb,bytestring,blaze-svg,blaze-markup,blaze-html
+  build-depends:       base <10000 , scotty , hint ,text,mtl,syb,bytestring,blaze-svg,blaze-markup,blaze-html,html

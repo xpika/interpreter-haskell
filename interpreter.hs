@@ -1,5 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
-
+{-# LANGUAGE OverloadedStrings #-} 
 import Web.Scotty
 import Control.Monad.Trans
 import Data.Text.Lazy
@@ -10,13 +9,16 @@ import Data.Monoid (mconcat)
 
 import TypeHelper
 
+import Paths_interpreter_haskell
+import System.IO
+
 uneither q =  (case q of {
                Right x -> x
               ;Left g -> show g
              })
    
 
-main = scotty 3000 $ do
+main = scotty 80 $ do
   get "/ghci_command" $ do
     beam <- param "foo"
     interpreted <- liftIO $ 
@@ -36,11 +38,17 @@ main = scotty 3000 $ do
              return q
     html $ mconcat [pack (uneither interpreted)]
   get "/jquery.min.js" $ do
-    newfile <- liftIO $ readFile "./jquery.min.js"
-    html $ mconcat [pack newfile]
+    fname <- liftIO $ getDataFileName "jquery.min.js" 
+    newfile <- liftIO $ readFileSafe fname
+    html $ mconcat [pack newfile] 
   get "/:word" $ do
     beam <- param "word"
     newfile <- liftIO $ readFile "text.html"
     html $ mconcat [pack newfile,beam]
 
+
+readFileSafe str =  do 
+ handle <- openFile str ReadMode
+ hSetEncoding handle utf8_bom
+ hGetContents handle
 
