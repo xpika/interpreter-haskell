@@ -11,14 +11,21 @@ import TypeHelper
 
 import Paths_interpreter_haskell
 import System.IO
+import System.Environment
 
 uneither q =  (case q of {
                Right x -> x
               ;Left g -> show g
              })
    
+main = do 
+       args <- getArgs 
+       processArgs args
 
-main = scotty 80 $ do
+processArgs [] = normal 80
+processArgs ["-p",n] = normal (read n::Int)
+
+normal port = scotty port $ do
   get "/ghci_command" $ do
     beam <- param "foo"
     interpreted <- liftIO $ 
